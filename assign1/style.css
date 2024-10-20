@@ -1,4 +1,28 @@
 table {
-    border-style: none;
+    border-style:none;
     border-collapse: collapse;
 }
+
+th  {
+    /* padding: 20px; */
+    width: 550px;
+    padding: 50px;
+
+}
+
+td { 
+    padding: 20px;
+    text-align: center;
+}
+
+#tableHead{
+    background-color: rgb(127, 206, 202);
+}
+
+table.alternate tr:nth-child(4n-3),
+table.alternate tr:nth-child(4n-2) {
+    background-color: lavender;
+}
+
+
+

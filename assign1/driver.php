@@ -12,7 +12,9 @@ include 'db_connection.php';
 if (isset($_GET['driverRef'])) {
     $driverRef = $_GET['driverRef'];
 
-    $statement = $pdo->prepare("SELECT driverId, forename, surname, dob, nationality FROM drivers WHERE driverRef = ?"); //figure out why url won't work & add it
+    $statement = $pdo->prepare("
+    SELECT driverId, forename, surname, dob, url, nationality
+    FROM drivers WHERE driverRef = ?"); 
     $statement->bindValue(1, $driverRef);
     $statement->execute();
     $driver = $statement->fetch(PDO::FETCH_ASSOC);
@@ -45,8 +47,7 @@ if (isset($_GET['driverRef'])) {
         <h3><?php echo htmlspecialchars($driver['forename'] . ' ' . $driver['surname']); ?></h3>
         <strong>Nationality: </strong><?php echo htmlspecialchars($driver['nationality']); //edit to be bold in css instead ?>
         <p>Date of Birth: <?php echo htmlspecialchars($driver['dob']); ?></p>
-        <?php //add curr age & url 
-        // <p>Want to know more?: <?php echo htmlspecialchars($driver['url']);</p> ?>
+        <p>Want to know more?: <a href="<?php echo htmlspecialchars($driver['url']); ?>"> Click Me!</a></p>
         <?php endif; ?>
     </div>
 
