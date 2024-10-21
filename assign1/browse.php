@@ -13,14 +13,16 @@ $raceResults = [];
 if (isset($_GET['raceId'])) {
     $raceId = $_GET['raceId'];
 
-    $raceSQL = $pdo->prepare("SELECT r.name AS raceName, r.round, c.name AS circuitName, c.location, c.country 
-        FROM races r
-        INNER JOIN circuits c ON r.circuitId = c.circuitId
-        WHERE r.raceId = ?
-    ");
-    $raceSQL->bindValue(1, $raceId);
-    $raceSQL->execute();
-    $raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
+    $raceSQL = $pdo->prepare("
+    SELECT r.name AS raceName, r.round, r.date, r.url, c.name AS circuitName, c.location, c.country 
+    FROM races r
+    INNER JOIN circuits c ON r.circuitId = c.circuitId
+    WHERE r.raceId = ?
+");
+$raceSQL->bindValue(1, $raceId);
+$raceSQL->execute();
+$raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
+
 
     $qualifyingSQL = $pdo->prepare("SELECT d.forename, d.surname, d.driverRef, c.constructorRef, c.name AS constructorName, q.position, q.q1, q.q2, q.q3
     FROM qualifying q
@@ -76,7 +78,20 @@ if (isset($_GET['raceId'])) {
     
     <main>
     <?php if (!empty($raceSelected)): ?>
+    <h2>Race Details: <?php echo htmlspecialchars($raceSelected['raceName']); ?></h2>
+    <p>Round: <?php echo htmlspecialchars($raceSelected['round']); ?></p>
+    <p>Circuit: <?php echo htmlspecialchars($raceSelected['circuitName']) . ' - ' . htmlspecialchars($raceSelected['location']) . ', ' . htmlspecialchars($raceSelected['country']); ?></p>
+    <p>Date of Race: <?php echo htmlspecialchars($raceSelected['date']); ?></p>
+    <p>URL: 
+        <a href="<?php echo htmlspecialchars($raceSelected['url']); ?>" target="_blank">
+            <?php echo htmlspecialchars($raceSelected['url']); ?>
+        </a>
+        </p>
+        <?php endif; ?>
+
+
         <div>
+        <?php if (!empty($raceSelected)): ?>
             <h2>Qualifying</h2>
             <table>
                 <thead>
@@ -120,11 +135,39 @@ if (isset($_GET['raceId'])) {
         </div>
 
         <div>
-            <h2>Results</h2>
+            <h2>Race Results</h2>
+
         </div>
         <?php else:?>
-        <p>Please select a race to display qualifyign and results </p>
+        <p>Please select a race to display qualifying and results</p>
         <?php endif; ?>
+
+        <?php if (!empty($raceSelected)): ?>
+        <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Driver</th>
+                        <th>Constructor</th>
+                        <th>Laps</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                    <?php if (!empty($raceResults)): ?>
+                        <?php foreach ($raceResults as $result): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($result['positionText']); ?></td>
+                                <td><?php echo htmlspecialchars($result['forename'] . ' ' . $result['surname']); ?> (<?php echo htmlspecialchars($result['driverRef']); ?>)</td>
+                                <td><?php echo htmlspecialchars($result['constructorName']); ?></td>
+                                <td><?php echo htmlspecialchars($result['laps']); ?></td>
+                                <td><?php echo htmlspecialchars($result['points']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="5">No race results available.</td></tr>
+                    <?php endif; ?>
+            </table>
     </main>
+    <?php endif; ?>
 </body>
 </html>
