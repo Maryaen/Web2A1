@@ -55,14 +55,39 @@ $raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Browse</title>
 </head>
-<body>
-    <div class = nav>
-        <h1>Formula 1</h1>
-    </div>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Formula 1</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="browse.php">Browse</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="">API Page</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    </header>
 
-    <aside>
+<body>
+    <div class="container">
+    <div class="row">
+    <div class="sidebar">
         <h2>2022 Races</h2>
         <ul>
             <?php foreach ($races as $race): ?>
@@ -74,7 +99,7 @@ $raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
                 </li>
             <?php endforeach; ?>
         </ul>
-    </aside>
+            </div>
     
     <main>
     <?php if (!empty($raceSelected)): ?>
@@ -139,7 +164,7 @@ $raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
 
         </div>
         <?php else:?>
-        <p>Please select a race to display qualifying and results</p>
+        <p>Please select a race to display results</p>
         <?php endif; ?>
 
         <?php if (!empty($raceSelected)): ?>
@@ -169,5 +194,7 @@ $raceSelected = $raceSQL->fetch(PDO::FETCH_ASSOC);
             </table>
     </main>
     <?php endif; ?>
+    </div>
+    </div>
 </body>
 </html>

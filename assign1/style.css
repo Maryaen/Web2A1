@@ -24,19 +24,41 @@ table.alternate tr:nth-child(4n-2) {
     background-color: lavender;
 }
 
-.navi {
-    background-color: #333;
-    color: #fff;
-    padding: 1em 0;
-    list-style-type: none;
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
     margin: 0;
     padding: 0;
+    width: 100%;
 }
 
 
-aside {
-    background-color: pink;
+.sidebar {
+    grid-column: span 2;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6; 
+    width: 350px;
+    margin: 100px;
 }
 
+.sidebar ul{
+    list-style: none;
+}
+main {
+    grid-column: span 4; 
+    padding: 15px;
+    margin: 0;
+}
+
+body {
+    padding: 0%;
+    margin: 0%;
+}
+
+.sidebar button {
+    margin: 10px;
+}
 
 
